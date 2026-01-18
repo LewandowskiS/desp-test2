@@ -1,0 +1,32 @@
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: mi-contenedor-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+  db:
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    container_name: daw-db-server
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: retro_games
+    volumes:
+      - datadir:/var/lib/mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:
+
+
+volumes:
+  datadir:
